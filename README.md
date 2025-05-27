@@ -21,3 +21,4 @@ pip install -r requirements.txt
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python flask_backend/server.py   # http://localhost:9090
+# Interactive-embedding-jwt-user-provisioning-and-mapping
