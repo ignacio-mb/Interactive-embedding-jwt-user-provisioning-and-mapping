@@ -1,1 +1,5 @@
-interactive_embedding_and_jwt_provissioning
+{
+  "alice123": "acme",
+  "bob456":   "acme",
+  "carol789": "globex"
+}
