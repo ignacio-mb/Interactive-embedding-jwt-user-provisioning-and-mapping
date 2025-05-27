@@ -1,23 +1,28 @@
-# Metabase SSO & Provisioning Demo (Python + Flask)
+Metabase SSO & Provisioning Demo  (Python + Flask)
+==================================================
 
-This project is a **self-contained SSO gateway** that lets you embed Metabase dashboards inside your app with **JWT SSO** and **per-client, per-user mapping**:
+This repo is a self-contained **JWT SSO gateway** that lets you embed Metabase
+dashboards with a “one Metabase user per client, many real users per client”
+model.
 
-- **One Metabase account per client** (auto-provisioned on first SSO)
-- **Many end-users per client** (mapped via `user_map.json`)
-- **Per-user context** (role, locale, IDs) passed in JWT `attr.*` claims
-- **Automatic redirect** into your Metabase dashboard (ID 134)
+Key features
+------------
+• **Auto-provision** one Metabase account the first time a client logs in
+• Map unlimited real users → clients via `user_map.json`
+• Map clients → Metabase e-mails via `client_map.json`
+• Every iframe visit mints a fresh JWT and lands on dashboard **#134**
+• Per-user context (`role`, `locale`, etc.) is delivered as JWT `attr.*` claims
 
----
+Run it
+python flask_backend/server.py
 
-## ➤ What it does
+Demo UI
+Visit http://localhost:9090/
 
-1. **Loads two JSON maps** from your project root:
-   - `user_map.json`: maps your real `user_id` → `client_id`
-   - `client_map.json`: maps `client_id` → Metabase account email
-2. **Exposes** a Flask endpoint:
-   ```http
-   GET /api/auth?
-     user_id=<your_user>&
-     [role=<analyst>]        ← optional
-     [locale=<es>]           ← optional
-     [return_to=/dash/134]   ← optional
+• Left pane: Client Accounts list (data from client_map.json)
+• Right pane: Users table (rows from user_map.json)
+• Each row has “View Dashboard” → calls
+/api/auth?user_id=<row>&return_to=/dashboard/134
+
+Metabase validates the JWT, creates the client account if needed, and shows
+dashboard #134 inside the iframe.
