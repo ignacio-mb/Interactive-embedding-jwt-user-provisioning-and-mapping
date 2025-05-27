@@ -1,24 +1,23 @@
-# Metabase SSO Demo (Python + Flask)
+# Metabase SSO & Provisioning Demo (Python + Flask)
 
-End-to-end example that **provisions users**, **adds them to groups**, **sets user attributes**, and **signs them straight into Metabase** via JWT SSO—all in a single redirect.
+This project is a **self-contained SSO gateway** that lets you embed Metabase dashboards inside your app with **JWT SSO** and **per-client, per-user mapping**:
 
-> Tested with Metabase 0.48 and later (open-source, Pro, and Enterprise).
+- **One Metabase account per client** (auto-provisioned on first SSO)
+- **Many end-users per client** (mapped via `user_map.json`)
+- **Per-user context** (role, locale, IDs) passed in JWT `attr.*` claims
+- **Automatic redirect** into your Metabase dashboard (ID 134)
 
 ---
 
-## ➤ Quick start
+## ➤ What it does
 
-```bash
-
-# create your secret config
-cp .env.example .env          # then edit .env
-
-# install backend deps
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-
-# run it
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-python flask_backend/server.py   # http://localhost:9090
-# Interactive-embedding-jwt-user-provisioning-and-mapping
+1. **Loads two JSON maps** from your project root:
+   - `user_map.json`: maps your real `user_id` → `client_id`
+   - `client_map.json`: maps `client_id` → Metabase account email
+2. **Exposes** a Flask endpoint:
+   ```http
+   GET /api/auth?
+     user_id=<your_user>&
+     [role=<analyst>]        ← optional
+     [locale=<es>]           ← optional
+     [return_to=/dash/134]   ← optional
