@@ -5,8 +5,7 @@ This code should let you map users wiht company emails and authenticate them via
 
 ---
 ## Key Features
-- **Automatic client provisioning** – the first time a client logs in, the app creates a dedicated Metabase user account.
-- **Unlimited real users per client** – map real‑world users to clients with `user_map.json`.
+- **Unlimited real users per client** – map users to clients with `user_map.json`.
 - **Client ⇢ Metabase e‑mail mapping** – define in `client_map.json`.
 - **Fresh JWT on every iframe visit** – keeps sessions short‑lived and secure.
 - **Per‑user context** – role, locale, and any other metadata are delivered via `attr.*` JWT claims.
